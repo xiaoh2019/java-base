@@ -64,6 +64,7 @@ public class NioSocketServer {
                             byteBuffer.flip();
                             channel.write(byteBuffer);
                             byteBuffer.clear();
+                            channel.close();
                         }catch (Exception e){
                             e.printStackTrace();
                             /**
