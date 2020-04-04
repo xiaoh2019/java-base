@@ -1,24 +1,24 @@
 package com.cyzs.net;
 
-import com.mysql.cj.x.protobuf.MysqlxDatatypes;
-
 import java.net.InetSocketAddress;
-import java.net.SocketAddress;
 import java.nio.ByteBuffer;
-import java.nio.channels.*;
+import java.nio.channels.SelectionKey;
+import java.nio.channels.Selector;
+import java.nio.channels.ServerSocketChannel;
+import java.nio.channels.SocketChannel;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.Iterator;
 import java.util.Set;
 
 /**
- * @Description: nio server端的程序 ，最完美的一次
+ * @Description:
  * @Author xh
- * @create 2020-01-11 22:07
+ * @create 2020-03-24 10:05
  */
-public class NioSocketServer {
+public class NioSocketServer3 {
 
-    public static void main(String[] args)throws Exception {
+    public static void main(String[] args) throws Exception{
         ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
         serverSocketChannel.socket().setReuseAddress(true);
         serverSocketChannel.socket().bind(new InetSocketAddress(8899));
@@ -49,9 +49,13 @@ public class NioSocketServer {
                          */
                         SocketChannel channel = null;
                         try{
+                            try {
+                                Thread.sleep(1000);
+                            }catch (Exception e){
 
+                            }
                             channel = (SocketChannel) selectionKey.channel();
-                            ByteBuffer byteBuffer = ByteBuffer.allocate(64);
+                            ByteBuffer byteBuffer = ByteBuffer.allocate(512);
                             channel.read(byteBuffer);
                             byteBuffer.flip();
                             byte[] bytes = new byte[byteBuffer.limit()];

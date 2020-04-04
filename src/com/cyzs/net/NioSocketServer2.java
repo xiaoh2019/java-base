@@ -1,24 +1,24 @@
 package com.cyzs.net;
 
-import com.mysql.cj.x.protobuf.MysqlxDatatypes;
-
 import java.net.InetSocketAddress;
-import java.net.SocketAddress;
 import java.nio.ByteBuffer;
-import java.nio.channels.*;
+import java.nio.channels.SelectionKey;
+import java.nio.channels.Selector;
+import java.nio.channels.ServerSocketChannel;
+import java.nio.channels.SocketChannel;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.Iterator;
 import java.util.Set;
 
 /**
- * @Description: nio server端的程序 ，最完美的一次
+ * @Description:
  * @Author xh
- * @create 2020-01-11 22:07
+ * @create 2020-03-19 9:01
  */
-public class NioSocketServer {
+public class NioSocketServer2 {
 
-    public static void main(String[] args)throws Exception {
+    public static void main(String[] args) throws Exception{
         ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
         serverSocketChannel.socket().setReuseAddress(true);
         serverSocketChannel.socket().bind(new InetSocketAddress(8899));
@@ -51,8 +51,12 @@ public class NioSocketServer {
                         try{
 
                             channel = (SocketChannel) selectionKey.channel();
-                            ByteBuffer byteBuffer = ByteBuffer.allocate(64);
-                            channel.read(byteBuffer);
+                            ByteBuffer byteBuffer = ByteBuffer.allocate(32);
+                            /**i是往ByteBuffer放的字节数量，可以通过i来判断有没有读取完毕
+                             * 如果没读完会再次轮训到这个流程
+                             */
+                            int i = channel.read(byteBuffer);
+                            System.out.println("---------------------"+i);
                             byteBuffer.flip();
                             byte[] bytes = new byte[byteBuffer.limit()];
                             byteBuffer.get(bytes);
