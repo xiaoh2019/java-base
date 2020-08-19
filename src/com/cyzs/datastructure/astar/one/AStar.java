@@ -12,15 +12,15 @@ public class AStar {
     /*6y行  8x列*/
     /*  第一个[row][col]*/
     private int[][] a = {{1,1,1,1,1,1,1,1,1,1},
-                        {1,1,1,1,0,1,1,1,1,1},
-                        {1,1,1,1,0,1,1,1,1,1},
-                        {1,0,1,0,0,1,1,1,1,1},
-                        {1,0,1,1,1,1,1,1,1,1},
-                        {1,1,0,1,1,1,1,1,1,1},
-                        {1,1,0,1,1,1,1,1,1,1},
                         {1,1,1,1,1,1,1,1,1,1},
-                        {1,1,0,1,1,1,1,1,1,1},
-                        {1,1,0,1,1,1,1,1,1,1}};
+                        {1,1,1,0,0,1,0,1,1,1},
+                        {1,1,1,0,1,1,0,1,1,1},
+                        {1,0,0,0,0,0,0,0,1,1},
+                        {1,1,1,0,1,1,1,1,1,1},
+                        {1,1,1,0,1,1,1,1,1,1},
+                        {0,0,0,0,0,0,0,0,1,1},
+                        {1,1,1,1,1,1,1,1,1,1},
+                        {1,1,1,1,1,1,1,1,1,1}};
     /** */
     private int rowMax = 10;
     /** */
@@ -35,7 +35,7 @@ public class AStar {
 
 
     public List<String> searchRoad(Node start, Node end){
-        ArrayList<String> list = new ArrayList<>();
+        //ArrayList<String> list = new ArrayList<>();
         initNodeAll();
         close.clear();
         open.clear();
@@ -48,7 +48,7 @@ public class AStar {
                 System.out.println("error");
                 return null;
             }
-            list.add(minNode.name);
+            //list.add(minNode.name);
             close.add(minNode);
 
             //获取总代价最小的周围的节点，并且不在open和close里面的
@@ -56,7 +56,9 @@ public class AStar {
             //初始化父节点
             for (Node node : roundNode) {
                 node.pNode = minNode;
-                node.countValue = getFvalue(node, end);
+                node.countValue = getCountValue(node, end);
+                node.startValue = getStartValue(node);
+                node.endValue = getEndValue(node, end);
             }
             //如果roundNode包含end说明成功找到
             if (isContainEnd(roundNode, end)){
@@ -69,7 +71,7 @@ public class AStar {
             //把新的周围节点添加到open
             open.addAll(roundNode);
         }
-        return list;
+        return null;
     }
 
 
@@ -134,14 +136,14 @@ public class AStar {
     /**
      * 总代价
      */
-    public double getFvalue(Node node, Node endNode){
-        return getGvalue(node) + getHvalue(node, endNode);
+    public double getCountValue(Node node, Node endNode){
+        return getStartValue(node) + getEndValue(node, endNode);
     }
 
     /**
      *当前节点到起点的代价
      */
-    public double getGvalue(Node node){
+    public double getStartValue(Node node){
         double d = 0;
         Node tmp = node;
         while (tmp.pNode != null){
@@ -156,7 +158,7 @@ public class AStar {
     /**
      * 当前节点到终点的代价
     */
-    public double getHvalue(Node node, Node endNode){
+    public double getEndValue(Node node, Node endNode){
         return (Math.abs(node.col - endNode.col) + Math.abs(node.row - endNode.row))*10;
     }
 
@@ -185,7 +187,7 @@ public class AStar {
             }
         }
         /*右上*/
-        if (col + 1 >= min && row - 1 >= min && nodeAll[row-1][col +1].reachable){
+        if (col + 1 < colMax && row - 1 >= min && nodeAll[row-1][col +1].reachable){
             boolean in = isIn(open, nodeAll[row-1][col +1]);
             boolean in2 = isIn(close, nodeAll[row-1][col +1]);
             if (!in && !in2){
@@ -202,7 +204,7 @@ public class AStar {
             }
         }
         /*正右*/
-        if (col + 1 <= rowMax && nodeAll[row][col +1].reachable){
+        if (col + 1 < rowMax && nodeAll[row][col +1].reachable){
             boolean in = isIn(open, nodeAll[row][col +1]);
             boolean in2 = isIn(close, nodeAll[row][col +1]);
             if (!in && !in2){
@@ -211,7 +213,7 @@ public class AStar {
         }
 
         /*左下*/
-        if (col - 1 >= min && row + 1 <= rowMax && nodeAll[row+1][col-1].reachable){
+        if (col - 1 >= min && row + 1 < rowMax && nodeAll[row+1][col-1].reachable){
             boolean in = isIn(open, nodeAll[row+1][col-1]);
             boolean in2 = isIn(close, nodeAll[row+1][col-1]);
             if (!in && !in2){
@@ -219,7 +221,7 @@ public class AStar {
             }
         }
         /*正下*/
-        if (row + 1 <= rowMax && nodeAll[row + 1][col].reachable ){
+        if (row + 1 < rowMax && nodeAll[row + 1][col].reachable ){
             boolean in = isIn(open, nodeAll[row + 1][col]);
             boolean in2 = isIn(close, nodeAll[row + 1][col]);
             if (!in && !in2){
@@ -227,7 +229,7 @@ public class AStar {
             }
         }
         /*右下*/
-        if (col + 1 <= colMax && row + 1 <= rowMax && nodeAll[row+1][col+1].reachable){
+        if (col + 1 < colMax && row + 1 < rowMax && nodeAll[row+1][col+1].reachable){
             boolean in = isIn(open, nodeAll[row+1][col+1]);
             boolean in2 = isIn(close, nodeAll[row+1][col+1]);
             if (!in && !in2){
