@@ -173,8 +173,7 @@ public class AStarTest {
         node2.row = endRow;
         node2.col = endCol;
         node2.name = endRow+"_"+endCol;
-        List<String> strings = aStar2.searchRoad(node, node2);
-        return strings;
+        return aStar2.searchRoad(node, node2);
 
     }
 

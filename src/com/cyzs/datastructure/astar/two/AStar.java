@@ -74,7 +74,7 @@ public class AStar {
             }
             //判断从起点到minNode是不是最佳路径
 
-            //如果不是需要修改min的PNode
+            //如果不是需要修改min的PNode,怎么找到从起始位置到当前位置的最佳路径？
             Node node1 = search2(start, minNode);
             if (node1 != null && node1.startValue < minNode.startValue){
                 //从open获取 node1的父节点
@@ -153,6 +153,7 @@ public class AStar {
 
     private Node search2(Node start, Node end){
         AStar aStar = new AStar();
+        aStar.initNodeAll();
         return aStar.searchNode2(start, end);
     }
 
@@ -165,13 +166,6 @@ public class AStar {
             }
         }
         return null;
-    }
-
-
-
-    private void updateNodeParent(Node upNode, Node byNode){
-
-
     }
 
 
@@ -353,7 +347,7 @@ public class AStar {
         for (int i = 0; i < rowMax; i++) {
             for (int j = 0; j < colMax; j++) {
                 if (a[i][j] == 1){
-                     Node node = new  Node();
+                    Node node = new  Node();
                     node.row = i;
                     node.col = j;
                     node.name = i + "_" + j;
@@ -361,7 +355,7 @@ public class AStar {
                     node.type = "1";
                     nodeAll[i][j] = node;
                 }else{
-                     Node node = new  Node();
+                    Node node = new  Node();
                     node.row = i;
                     node.col = j;
                     node.name = i + "_" + j;
