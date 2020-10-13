@@ -51,7 +51,7 @@ public class FileTransfer {
                     if (!dir.exists()){ boolean b = dir.mkdirs(); }
                     LocalDateTime date = LocalDateTime.now();
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd.hh.mm.ss.SSS");
-                    long l = Files.copy(inputStream, Path.of("C:\\filetransfer\\"+formatter.format(date))
+                    long l = Files.copy(inputStream, Path.of("C:\\filetransfer\\"+formatter.format(date)+".zip")
                             , StandardCopyOption.REPLACE_EXISTING);
                     long time1 = System.currentTimeMillis();
                     double t = (double)(time1 - time)/1000;
@@ -63,9 +63,10 @@ public class FileTransfer {
                 }catch (Exception e){ System.out.println("[receive]: remote conection close");}
                 finally {
                     inputStream.close();
-                    socket.close(); }
+                    socket.close();
+                }
             }
-        }catch (Exception e){ System.out.println("address used"); }
+        }catch (Exception e){ System.out.println("[receive]: address used"); }
     }
 
     public static void client(){
@@ -89,9 +90,9 @@ public class FileTransfer {
                     System.out.print("[command]:");
                     outputStream.close();
                     socket.close();
-                }catch (Exception e){ System.out.println("send fail");}
+                }catch (Exception e){ System.out.println("[command]: send fail");}
                 finally { if (socket != null){ socket.close(); } }
             }
-        }catch (Exception e){ System.out.println("fail"); }
+        }catch (Exception e){ System.out.println("[command]: fail"); }
     }
 }
