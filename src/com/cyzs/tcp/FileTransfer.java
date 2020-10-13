@@ -52,7 +52,7 @@ public class FileTransfer {
             int sum = 0;
             ServerSocket serverSocket = new ServerSocket();
             serverSocket.bind(new InetSocketAddress(17211));
-            System.out.println("start receive file");
+            System.out.println("[receive]: start receive file");
             while (true){
                 try {
                     Socket socket = serverSocket.accept();
@@ -68,13 +68,13 @@ public class FileTransfer {
                     long time1 = System.currentTimeMillis();
                     double t = (time1 - time)/1000;
                     double s = l/(1000*1000*t);
-                    System.out.println("time:" + t + "s  speed:" + String.format("%.2f",s) + "MB/s" );
+                    System.out.println("[receive]: time:" + t + "s  speed:" + String.format("%.2f",s) + "MB/s" );
                     socket.close();
-                    System.out.println("dir C:\\filetransfer");
+                    System.out.println("[receive]: dir C:\\filetransfer");
                     sum +=1;
-                    System.out.println(sum + "st finished");
+                    System.out.println("[receive]: "+sum + "st finished");
                 }catch (Exception e){
-                    System.out.println("远程连接关闭");
+                    System.out.println("[receive]: remote conection close");
                 }
             }
         }catch (Exception e){
