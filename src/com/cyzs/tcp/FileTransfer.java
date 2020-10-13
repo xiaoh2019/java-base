@@ -1,6 +1,5 @@
 package com.cyzs.tcp;
 
-import javax.sound.midi.SoundbankResource;
 import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -60,11 +59,10 @@ public class FileTransfer {
                     long time = System.currentTimeMillis();
                     File dir = new File("C:\\filetransfer");
                     if (!dir.exists()){ dir.mkdirs(); }
-
                     LocalDateTime date = LocalDateTime.now();
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd.hh.mm.ss.SSS");
-                    long l = Files.copy(inputStream, Path.of("C:\\filetransfer\\"+formatter.format(date)+".zip"), StandardCopyOption.REPLACE_EXISTING);
-
+                    long l = Files.copy(inputStream, Path.of("C:\\filetransfer\\"+formatter.format(date))
+                            , StandardCopyOption.REPLACE_EXISTING);
                     long time1 = System.currentTimeMillis();
                     double t = (time1 - time)/1000;
                     double s = l/(1000*1000*t);
