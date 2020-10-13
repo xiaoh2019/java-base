@@ -22,13 +22,14 @@ public class FileTransfer {
         try {
             InetAddress ip4 = Inet4Address.getLocalHost();
             System.out.println("your ip:"+ip4.getHostAddress());
+
             Scanner scanner = new Scanner(System.in);
-            System.out.println("you need receive file? yes/no");
+            System.out.print("you need receive file? yes/no:");
             if ("yes".equals(scanner.nextLine())){
                 new Thread(new Runnable() {@Override public void run() { server(); }}).start();
             }
             Thread.sleep(300);
-            System.out.println("you need send file? yes/no");
+            System.out.print("you need send file? yes/no:");
             if ("yes".equals(scanner.nextLine())){
                 new Thread(new Runnable() {@Override public void run() { client(); }}).start();
             }
