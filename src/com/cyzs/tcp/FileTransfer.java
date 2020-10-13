@@ -68,17 +68,16 @@ public class FileTransfer {
                     long time1 = System.currentTimeMillis();
                     double t = (time1 - time)/1000;
                     double s = l/(1000*1000*t);
-                    System.out.println("[receive]: time:" + t + "s  speed:" + String.format("%.2f",s) + "MB/s" );
                     socket.close();
-                    System.out.println("[receive]: dir C:\\filetransfer");
                     sum +=1;
-                    System.out.println("[receive]: "+sum + "st finished");
+                    System.out.println("[receive]: " + sum + "st finished dir C:\\filetransfer");
+                    System.out.println("[receive]: time:" + t + "s  speed:" + String.format("%.2f",s) + "MB/s" );
                 }catch (Exception e){
                     System.out.println("[receive]: remote conection close");
                 }
             }
         }catch (Exception e){
-            System.out.println("");
+            System.out.println("address used");
         }
     }
 
@@ -102,8 +101,7 @@ public class FileTransfer {
                     socket.connect(new InetSocketAddress(arr[1],17211));
                     OutputStream outputStream = socket.getOutputStream();
                     long copy = Files.copy(Path.of(arr[2]), outputStream);
-                    System.out.println("send finished");
-                    System.out.print("[send]:");
+                    System.out.print("[command]:");
                     outputStream.close();
                     socket.close();
                 }catch (Exception e){
